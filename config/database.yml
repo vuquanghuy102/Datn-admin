@@ -1,0 +1,6 @@
+development:
+  adapter: oracle_enhanced
+  database: 192.168.1.86:1521/orcl
+  username: qlg
+  password: qlg
+  schema: QLG
