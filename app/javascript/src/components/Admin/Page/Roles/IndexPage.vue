@@ -39,10 +39,12 @@
   </div>
 </template>
 <script>
-import Item from "./Item";
-import Paging from "../share/Paging";
-import Search from "./Search";
-import RolesApi from "../../../api/roles";
+import Item from "../../Components/Roles/Item";
+import Paging from "../../Shared/Paging";
+import Search from "../../Components/Roles/Search";
+
+import { RepositoryFactory } from "../../../../repositories/RepositoryFactory";
+const RolesRepository = RepositoryFactory.get("adminRoles");
 
 export default {
   components: {
@@ -53,10 +55,13 @@ export default {
   data: function() {
     return {
       rolesList: [],
-      page: 1,
-      perPage: 50,
-      meta: {},
-      searchData: null,
+      meta: {
+        total: null,
+        page: 1,
+        from: null,
+        to: null,
+        series: []
+      },
       q: {}
     };
   },
@@ -65,18 +70,16 @@ export default {
   },
   methods: {
     fetchRolesList: async function() {
-      const params = {
-        q: this.q,
-        page: this.page,
-        per_page: this.perPage
-      };
-      
       try {
         this.$root.$refs.loading.show();
-        const result = await RolesApi.getRolesList(params);
+
+        const result = await RolesRepository.getList({
+          q: this.q,
+          page: this.meta.page
+        });
+
         this.rolesList = result.data.roles;
-        this.meta = Object.assign({}, this.meta, result.data.meta);
-        this.page = this.meta.page;
+        this.meta = result.data.meta;
       } catch (e) {
         console.log(e.message);
       } finally {
@@ -84,7 +87,7 @@ export default {
       }
     },
     onChangePage: function(page) {
-      this.page = page;
+      this.meta.page = page;
       this.fetchRolesList();
     },
     onSearch: async function(params) {

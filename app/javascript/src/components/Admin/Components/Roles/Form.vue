@@ -5,7 +5,7 @@
       <div class="col-sm-10">
         <input
           type="text"
-          v-model="creatingRole.name"
+          v-model="role.name"
           class="form-control"
         />
         <div class="validation" v-if="errors.name">
@@ -18,7 +18,7 @@
       <label for="kind" class="col-sm-2 col-form-label">Miêu tả chức vụ</label>
       <div class="col-sm-10">
         <textarea rows="4" cols="50"
-                  v-model="creatingRole.description"
+                  v-model="role.description"
                   class="form-control"></textarea>
         <div class="validation" v-if="errors.description">
           <p v-for="(error, key) in errors.description" :key="key">{{ error }}</p>
@@ -28,19 +28,17 @@
 
     <button
       class="btn btn-primary float-right"
-      @click.prevent="save(creatingRole)"
+      @click.prevent="save(role)"
     >
       Lưu lại
     </button>
   </div>
 </template>
 <script>
-import RoleApi from "../../../api/roles";
+import { RepositoryFactory } from "../../../../repositories/RepositoryFactory";
+const RolesRepository = RepositoryFactory.get("adminRoles");
 
 export default {
-  components: {
-    RoleApi
-  },
   props: {
     role: {
       type: Object,
@@ -50,7 +48,6 @@ export default {
   },
   data: function() {
     return {
-      creatingRole: this.role,
       errors: {},
     };
   },
@@ -60,8 +57,8 @@ export default {
 
       try {
         const response = this.isCreate
-          ? await RoleApi.createRole(this.creatingRole)
-          : await RoleApi.editRole(this.creatingRole);
+          ? await RolesRepository.create(this.role)
+          : await RolesRepository.update(this.role);
 
         await this.$swal.fire({
           icon: "success",

@@ -1,24 +1,19 @@
 <template>
   <div>
-    <Form :role="role" :is-create="false" />
+    <Form :role="role" :is-create="true" />
     <button class="btn btn-info" @click="onIndexRole()">Trở về danh sách</button>
   </div>
 </template>
 <script>
-import Form from "./Form";
+import Form from "../../Components/Roles/Form";
 
 export default {
   components: {
-    Form,
-  },
-  props: {
-    role: {
-      type: Object,
-      required: true
-    }
+    Form
   },
   data: function() {
     return {
+      role: {}
     };
   },
   methods: {

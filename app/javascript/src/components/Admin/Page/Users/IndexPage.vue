@@ -71,11 +71,6 @@ export default {
   },
   methods: {
     fetchUsersList: async function() {
-      const params = {
-        q: this.q,
-        page: this.meta.page,
-      };
-      
       try {
         this.$root.$refs.loading.show();
 
@@ -93,7 +88,7 @@ export default {
       }
     },
     onChangePage: function(page) {
-      this.page = page;
+      this.meta.page = page;
       this.fetchUsersList();
     },
     onSearch: async function(params) {

@@ -34,9 +34,9 @@ document.addEventListener('DOMContentLoaded', () => {
     el: "#app",
     components: {
       Loading: Loading,
-      RolesIndex: () => import('./components/roles/Index'),
-      RolesNewPage: () => import('./components/roles/new'),
-      RolesEditPage: () => import('./components/roles/edit'),
+      RolesIndex: () => import('../src/components/Admin/Page/Roles/IndexPage'),
+      RolesNewPage: () => import('../src/components/Admin/Page/Roles/NewPage'),
+      RolesEditPage: () => import('../src/components/Admin/Page/Roles/EditPage'),
       UsersIndex: () => import('../src/components/Admin/Page/Users/IndexPage'),
       UsersNewPage: () => import('../src/components/Admin/Page/Users/NewPage'),
       UsersEditPage: () => import('../src/components/Admin/Page/Users/EditPage'),

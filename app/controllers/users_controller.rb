@@ -2,19 +2,13 @@ class UsersController < BaseController
   include Pagy::Backend
   before_action :authorization
 
-  def index; end
-
-  def new
-    @user = User.new
-    respond_to do |format|
-      format.html
-      format.json { render json: @user }
-    end
-  end
-
-  def edit; end
+  private
 
   def authorization
     authorize User
+  end
+
+  def set_title
+    @title = "Tài khoản hệ thống"
   end
 end

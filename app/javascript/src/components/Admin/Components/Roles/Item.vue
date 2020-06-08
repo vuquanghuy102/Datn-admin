@@ -22,7 +22,8 @@
   </tr>
 </template>
 <script>
-import RolesApi from "../../../api/roles";
+import { RepositoryFactory } from "../../../../repositories/RepositoryFactory";
+const RolesRepository = RepositoryFactory.get("adminRoles");
 
 export default {
   data: function() {
@@ -53,7 +54,7 @@ export default {
           if (result.value) {
             try {
               self.$root.$refs.loading.show();
-              const resultDestroy = await RolesApi.destroyRole(
+              const resultDestroy = await RolesRepository.destroy(
                 self.role.id
               );
               self.$toasted.success(resultDestroy.data.message);
