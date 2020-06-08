@@ -28,7 +28,8 @@
   </tr>
 </template>
 <script>
-import UsersApi from "../../../api/users";
+import { RepositoryFactory } from "../../../../repositories/RepositoryFactory";
+const UsersRepository = RepositoryFactory.get("adminUsers");
 
 export default {
   data: function() {
@@ -59,7 +60,7 @@ export default {
           if (result.value) {
             try {
               self.$root.$refs.loading.show();
-              const resultDestroy = await UsersApi.destroyUser(
+              const resultDestroy = await UsersRepository.destroy(
                 self.user.id
               );
               self.$toasted.success(resultDestroy.data.message);

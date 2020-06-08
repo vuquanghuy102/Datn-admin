@@ -3,7 +3,7 @@
     <div class="form-group row">
       <label for="kind" class="col-sm-2 col-form-label">Chức vụ</label>
       <div class="col-sm-10">
-        <div v-for="(userRole, index) in userRoles" :key="index">
+        <div v-for="(userRole, index) in userRolesAttributes" :key="index">
           <div class="flex w-full items-center mb-3 select_role" v-if="!userRole._destroy">
             <div class="select-wrapper select_option_role">
               <select :key="index" v-model="userRole.role_id" class="form-control">
@@ -35,7 +35,7 @@
       <div class="col-sm-10">
         <input
           type="text"
-          v-model="userData.email"
+          v-model="user.email"
           class="form-control"
         />
         <div class="validation" v-if="errors.email">
@@ -49,7 +49,7 @@
       <div class="col-sm-10">
         <input
           type="text"
-          v-model="userData.name"
+          v-model="user.name"
           class="form-control"
         />
         <div class="validation" v-if="errors.name">
@@ -63,7 +63,7 @@
       <div class="col-sm-10">
         <input
           type="password"
-          v-model="userData.password"
+          v-model="user.password"
           class="form-control"
         />
         <div class="validation" v-if="errors.password">
@@ -74,19 +74,17 @@
 
     <button
       class="btn btn-primary float-right"
-      @click.prevent="save(userData)"
+      @click.prevent="save(user)"
     >
       Lưu lại
     </button>
   </div>
 </template>
 <script>
-import UserApi from "../../../api/users";
+import { RepositoryFactory } from "../../../../repositories/RepositoryFactory";
+const UsersRepository = RepositoryFactory.get("adminUsers");
 
 export default {
-  components: {
-    UserApi
-  },
   props: {
     user: {
       type: Object,
@@ -104,44 +102,42 @@ export default {
   },
   data: function() {
     return {
-      userData: this.user,
-      userRoles: this.userRolesAttributes,
-      errors: {},
+      errors: {}
     };
   },
   methods: {
     removeUserRole: function(index) {
-      const userRole = this.userRoles[index];
+      const userRole = this.userRolesAttributes[index];
 
       if (userRole.id == null) {
-        this.userRoles.splice(index, 1);
+        this.userRolesAttributes.splice(index, 1);
       } else {
-        this.$set(this.userRoles[index], "_destroy", true);
+        this.$set(this.userRolesAttributes[index], "_destroy", true);
       }
     },
     addUserRole: function() {
-      this.userRoles.push({
+      this.userRolesAttributes.push({
         id: null,
         _destroy: false
       });
     },
     save: async function() {
       this.errors = {};
-      let arr = this.userRoles.filter(x => {
+      let arr = this.userRolesAttributes.filter(x => {
         return x.role_id != undefined;
       });
 
-      this.userData.user_roles_attributes = arr;
+      this.user.user_roles_attributes = arr;
       let self = this;
 
       try {
         const response = this.isCreate
-          ? await UserApi.createUser(this.userData)
-          : await UserApi.editUser(this.userData);
+          ? await UsersRepository.create(this.user)
+          : await UsersRepository.update(this.user);
 
         await this.$swal.fire({
           icon: "success",
-          title: "Quản trị viên đã được lưu.",
+          title: "Tài khoản đã được lưu.",
           showConfirmButton: false,
           timer: 1500
         });

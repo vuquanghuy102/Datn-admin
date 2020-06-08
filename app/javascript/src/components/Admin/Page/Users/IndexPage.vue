@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Search v-on:search-users="onSearch" :role-options="roleOptions"/>
+    <Search v-on:search-users="onSearch"/>
     <div class="card">
       <div class="card-header card-header-success">
         <h4 class="card-title">Danh sách tài khoản</h4>
@@ -40,10 +40,12 @@
   </div>
 </template>
 <script>
-import Item from "./Item";
-import Paging from "../share/Paging";
-import Search from "./Search";
-import UsersApi from "../../../api/users";
+import Item from "../../Components/Users/Item";
+import Paging from "../../Shared/Paging";
+import Search from "../../Components/Users/Search";
+
+import { RepositoryFactory } from "../../../../repositories/RepositoryFactory";
+const UsersRepository = RepositoryFactory.get("adminUsers");
 
 export default {
   components: {
@@ -54,18 +56,15 @@ export default {
   data: function() {
     return {
       usersList: [],
-      page: 1,
-      perPage: 50,
-      meta: {},
-      searchData: null,
+      meta: {
+        total: null,
+        page: 1,
+        from: null,
+        to: null,
+        series: []
+      },
       q: {}
     };
-  },
-  props: {
-    roleOptions: {
-      type: Array,
-      reuired: true
-    }
   },
   created: function() {
     this.fetchUsersList();
@@ -74,16 +73,19 @@ export default {
     fetchUsersList: async function() {
       const params = {
         q: this.q,
-        page: this.page,
-        per_page: this.perPage
+        page: this.meta.page,
       };
       
       try {
         this.$root.$refs.loading.show();
-        const result = await UsersApi.getUsersList(params);
+
+        const result = await UsersRepository.getList({
+          q: this.q,
+          page: this.meta.page
+        });
+
         this.usersList = result.data.users;
-        this.meta = Object.assign({}, this.meta, result.data.meta);
-        this.page = this.meta.page;
+        this.meta = result.data.meta;
       } catch (e) {
         console.log(e.message);
       } finally {

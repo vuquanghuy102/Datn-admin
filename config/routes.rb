@@ -14,4 +14,15 @@ Rails.application.routes.draw do
   resources :students, except: :show
   resources :courses, except: :show
   resources :schedules, except: :show
+
+  namespace :api do
+    namespace :admin do
+      resources :users
+      resources :roles do
+        collection do
+          get :list_select
+        end
+      end
+    end
+  end
 end

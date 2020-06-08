@@ -25,7 +25,7 @@ Vue.prototype.$swal = Swal;
 import Vue from 'vue/dist/vue.esm';
 import '../styles/application.scss'
 
-import Loading from './components/share/Loading'
+import Loading from '../src/components/Admin/Shared/Loading'
 
 document.addEventListener('DOMContentLoaded', () => {
   const app = document.getElementById("app");
@@ -37,9 +37,9 @@ document.addEventListener('DOMContentLoaded', () => {
       RolesIndex: () => import('./components/roles/Index'),
       RolesNewPage: () => import('./components/roles/new'),
       RolesEditPage: () => import('./components/roles/edit'),
-      UsersIndex: () => import('./components/users/Index'),
-      UsersNewPage: () => import('./components/users/new'),
-      UsersEditPage: () => import('./components/users/edit'),
+      UsersIndex: () => import('../src/components/Admin/Page/Users/IndexPage'),
+      UsersNewPage: () => import('../src/components/Admin/Page/Users/NewPage'),
+      UsersEditPage: () => import('../src/components/Admin/Page/Users/EditPage'),
       PermissionsIndex: () => import('./components/permissions/Index'),
       SubjectsIndex: () => import('./components/subjects/Index'),
       SubjectsNewPage: () => import('./components/subjects/new'),

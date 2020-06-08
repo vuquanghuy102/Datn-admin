@@ -7,23 +7,13 @@
       <form>
         <div class="form-group">
           <div class="row mb-8">
-            <div class="col-md-4">
+            <div class="col-md-6">
               <label for="name">Theo tên người giữ tài khoản</label>
               <input type="text" class="form-control" id="name" v-model="q.name_cont" />
             </div>
-            <div class="col-md-4">
+            <div class="col-md-6">
               <label for="name">Theo email tài khoản</label>
               <input type="text" class="form-control" id="name" v-model="q.email_cont" />
-            </div>
-            <div class="col-md-4">
-              <label for="name">Theo chức vụ</label>
-              <select v-model="q.role_eq" class="form-control">
-                <option v-bind:value="null">--Vui lòng chọn--</option>
-                <option v-for="role in roleOptions"
-                        v-bind:value="role.value"
-                        :key="role.id">
-                  {{ role.name }}</option>
-              </select>
             </div>
           </div>
         </div>
@@ -39,16 +29,9 @@ export default {
     return {
       q: {
         name_cont: null,
-        email_cont: null,
-        role_eq: null
+        email_cont: null
       }
     };
-  },
-  props: {
-    roleOptions: {
-      type: Array,
-      requied: true
-    }
   },
   methods: {
     onSearch: function() {
