@@ -5,11 +5,7 @@ Rails.application.routes.draw do
 
   resources :roles, except: :show
   resources :users, except: :show
-  resources :permissions do
-    collection do
-      post :remove
-    end
-  end
+  resources :permissions, only: %i[index create]
   resources :subjects, except: :show
   resources :students, except: :show
   resources :courses, except: :show
@@ -21,6 +17,18 @@ Rails.application.routes.draw do
       resources :roles do
         collection do
           get :list_select
+          get :get_list_all
+        end
+      end
+      resources :permissions, only: %i[create] do
+        collection do
+          get :get_list
+          post :remove
+        end
+      end
+      resources :authorizations do
+        collection do
+          get :get_list
         end
       end
     end

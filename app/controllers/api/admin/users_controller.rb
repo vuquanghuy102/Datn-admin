@@ -72,7 +72,7 @@ module Api
 
       def user_params
         params.permit(
-          :id, :email, :password, :name,
+          :id, :email, :password, :password_confirmation, :name,
           user_roles_attributes: %i[
             id role_id _destroy
           ]

@@ -59,7 +59,7 @@
     </div>
 
     <div class="form-group row" v-if="isCreate">
-      <label for="kind" class="col-sm-2 col-form-label">Password</label>
+      <label for="kind" class="col-sm-2 col-form-label">Mật khẩu</label>
       <div class="col-sm-10">
         <input
           type="password"
@@ -68,6 +68,20 @@
         />
         <div class="validation" v-if="errors.password">
           <p v-for="(error, key) in errors.password" :key="key">{{ error }}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group row" v-if="isCreate">
+      <label for="kind" class="col-sm-2 col-form-label">Xác nhận mật khẩu</label>
+      <div class="col-sm-10">
+        <input
+          type="password"
+          v-model="user.password_confirmation"
+          class="form-control"
+        />
+        <div class="validation" v-if="errors.password_confirmation">
+          <p v-for="(error, key) in errors.password_confirmation" :key="key">{{ error }}</p>
         </div>
       </div>
     </div>

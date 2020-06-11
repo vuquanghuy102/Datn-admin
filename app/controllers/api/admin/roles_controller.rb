@@ -75,6 +75,10 @@ module Api
         render json: @list_role
       end
 
+      def get_list_all
+        render json: Role.all
+      end
+
       private
 
       def fetch_role

@@ -21,6 +21,9 @@ export default {
       paramsSerializer,
     });
   },
+  getListAll() {
+    return Repository.get(`${resource}/get_list_all.json`);
+  },
   getListSelect() {
     return Repository.get(`${resource}/list_select.json`)
   },

@@ -7,4 +7,12 @@ vn:
       too_short: phải nhiều hơn %{count} ký tự
       duplicate: đã bị trùng
       does_not_exist: không tồn tại
-      not_a_number: Phải là số
+      not_a_number: phải là số
+      record_invalid: phải là số
+  activemodel:
+    errors:
+      models:
+        user_validator:
+          attributes:
+            password_confirmation:
+              confirmation: không phù hợp
