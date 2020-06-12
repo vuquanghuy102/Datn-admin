@@ -1,8 +1,6 @@
 <template>
   <div>
-    <Search v-on:search-subjects="onSearch"
-            :subject-type-option="subjectTypeOption"
-            :department-option="departmentOption"/>
+    <Search v-on:search-subjects="onSearch" />
     <div class="card">
       <div class="card-header card-header-success">
         <h4 class="card-title">Danh sách môn hoc</h4>
@@ -47,10 +45,12 @@
   </div>
 </template>
 <script>
-import Item from "./Item";
-import Paging from "../share/Paging";
-import Search from "./Search";
-import SubjectsApi from "../../../api/subjects";
+import Item from "../../Components/Subjects/Item";
+import Paging from "../../Shared/Paging";
+import Search from "../../Components/Subjects/Search";
+
+import { RepositoryFactory } from "../../../../repositories/RepositoryFactory";
+const SubjectsRepository = RepositoryFactory.get("adminSubjects");
 
 export default {
   components: {
@@ -58,21 +58,16 @@ export default {
     Paging,
     Search
   },
-  props: {
-    subjectTypeOption: {
-      type: Array
-    },
-    departmentOption: {
-      type: Array
-    }
-  },
   data: function() {
     return {
       subjectsList: [],
-      page: 1,
-      perPage: 50,
-      meta: {},
-      searchData: null,
+      meta: {
+        total: null,
+        page: 1,
+        from: null,
+        to: null,
+        series: []
+      },
       q: {}
     };
   },
@@ -81,18 +76,16 @@ export default {
   },
   methods: {
     fetchSubjectsList: async function() {
-      const params = {
-        q: this.q,
-        page: this.page,
-        per_page: this.perPage
-      };
-      
       try {
         this.$root.$refs.loading.show();
-        const result = await SubjectsApi.getSubjectsList(params);
+
+        const result = await SubjectsRepository.getList({
+          q: this.q,
+          page: this.meta.page
+        });
+
         this.subjectsList = result.data.subjects;
-        this.meta = Object.assign({}, this.meta, result.data.meta);
-        this.page = this.meta.page;
+        this.meta = result.data.meta;
       } catch (e) {
         console.log(e.message);
       } finally {
@@ -100,7 +93,7 @@ export default {
       }
     },
     onChangePage: function(page) {
-      this.page = page;
+      this.meta.page = page;
       this.fetchSubjectsList();
     },
     onSearch: async function(params) {

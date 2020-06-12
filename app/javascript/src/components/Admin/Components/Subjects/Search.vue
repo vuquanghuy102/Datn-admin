@@ -58,15 +58,10 @@
   </div>
 </template>
 <script>
+import { RepositoryFactory } from "../../../../repositories/RepositoryFactory";
+const SubjectsRepository = RepositoryFactory.get("adminSubjects");
+
 export default {
-  props: {
-    subjectTypeOption: {
-      type: Array
-    },
-    departmentOption: {
-      type: Array
-    }
-  },
   data: function() {
     return {
       q: {
@@ -76,8 +71,13 @@ export default {
         jhi_desc_cont: null,
         department_eq: null,
         status_eq: null
-      }
+      },
+      departmentOption: [],
+      subjectTypeOption: []
     };
+  },
+  created() {
+    this.fetchListOptionSelect();
   },
   methods: {
     onSearch: function() {
@@ -85,6 +85,13 @@ export default {
     },
     onNewSubjects: function() {
       window.location.href = "/subjects/new";
+    },
+    fetchListOptionSelect: async function() {
+      const result_department_option = await SubjectsRepository.getListDepartmentOption();
+      const result_subject_type_option = await SubjectsRepository.getListSubjectTypeOption();
+
+      this.departmentOption = await result_department_option.data
+      this.subjectTypeOption = await result_subject_type_option.data
     }
   }
 };

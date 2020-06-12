@@ -28,7 +28,8 @@
   </tr>
 </template>
 <script>
-import SubjectsApi from "../../../api/subjects";
+import { RepositoryFactory } from "../../../../repositories/RepositoryFactory";
+const SubjectsRepository = RepositoryFactory.get("adminSubjects");
 
 export default {
   data: function() {
@@ -59,7 +60,7 @@ export default {
           if (result.value) {
             try {
               self.$root.$refs.loading.show();
-              const resultDestroy = await SubjectsApi.destroySubject(
+              const resultDestroy = await SubjectsRepository.destroy(
                 self.subject.id
               );
               self.$toasted.success(resultDestroy.data.message);

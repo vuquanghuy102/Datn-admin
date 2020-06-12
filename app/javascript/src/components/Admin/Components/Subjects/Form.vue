@@ -5,7 +5,7 @@
       <div class="col-sm-10">
         <input
           type="text"
-          v-model="creatingSubject.subject_code"
+          v-model="subject.subject_code"
           class="form-control"
           readonly
         />
@@ -20,7 +20,7 @@
       <div class="col-sm-10">
         <input
           type="text"
-          v-model="creatingSubject.subject_name"
+          v-model="subject.subject_name"
           class="form-control"
         />
         <div class="validation" v-if="errors.subject_name">
@@ -32,7 +32,7 @@
     <div class="form-group row">
       <label for="kind" class="col-sm-2 col-form-label">Loại môn học</label>
       <div class="col-sm-10">
-        <select v-model="creatingSubject.subject_type" class="form-control">
+        <select v-model="subject.subject_type" class="form-control">
           <option v-bind:value="null">--Vui lòng chọn--</option>
           <option v-for="(subjectType, index) in subjectTypeOption"
                   v-bind:value="subjectType"
@@ -50,7 +50,7 @@
       <div class="col-sm-10">
         <input
           type="text"
-          v-model="creatingSubject.credit_value"
+          v-model="subject.credit_value"
           class="form-control"
         />
         <div class="validation" v-if="errors.credit_value">
@@ -62,7 +62,7 @@
     <div class="form-group row">
       <label for="kind" class="col-sm-2 col-form-label">Khoa</label>
       <div class="col-sm-10">
-        <select v-model="creatingSubject.department" class="form-control">
+        <select v-model="subject.department" class="form-control">
           <option v-bind:value="null">--Vui lòng chọn--</option>
           <option v-for="(department, index) in departmentOption"
                   v-bind:value="department"
@@ -78,7 +78,7 @@
     <div class="form-group row">
       <label for="kind" class="col-sm-2 col-form-label">Trạng thái</label>
       <div class="col-sm-10">
-        <select v-model="creatingSubject.status" class="form-control">
+        <select v-model="subject.status" class="form-control">
           <option v-bind:value="null">--Vui lòng chọn--</option>
           <option value="active">Kích hoạt</option>
           <option value="archived">Chưa kích hoạt</option>
@@ -93,7 +93,7 @@
       <label for="kind" class="col-sm-2 col-form-label">Miêu tả môn học</label>
       <div class="col-sm-10">
         <textarea rows="4" cols="50"
-                  v-model="creatingSubject.jhi_desc"
+                  v-model="subject.jhi_desc"
                   class="form-control"></textarea>
         <div class="validation" v-if="errors.jhi_desc">
           <p v-for="(error, key) in errors.jhi_desc" :key="key">{{ error }}</p>
@@ -106,7 +106,7 @@
       <div class="col-sm-10">
         <input
           type="text"
-          v-model="creatingSubject.credit_value_number"
+          v-model="subject.credit_value_number"
           class="form-control"
         />
         <div class="validation" v-if="errors.credit_value_number">
@@ -117,37 +117,33 @@
 
     <button
       class="btn btn-primary float-right"
-      @click.prevent="save(creatingSubject)"
+      @click.prevent="save(subject)"
     >
       Lưu lại
     </button>
   </div>
 </template>
 <script>
-import SubjectApi from "../../../api/subjects";
+import { RepositoryFactory } from "../../../../repositories/RepositoryFactory";
+const SubjectsRepository = RepositoryFactory.get("adminSubjects");
 
 export default {
-  components: {
-    SubjectApi
-  },
   props: {
     subject: {
       type: Object,
       required: true
     },
-    subjectTypeOption: {
-      type: Array
-    },
-    departmentOption: {
-      type: Array
-    },
     isCreate: Boolean
   },
   data: function() {
     return {
-      creatingSubject: this.subject,
       errors: {},
+      subjectTypeOption: [],
+      departmentOption: []
     };
+  },
+  created() {
+    this.fetchListOptionSelect();
   },
   methods: {
     save: async function() {
@@ -155,8 +151,8 @@ export default {
 
       try {
         const response = this.isCreate
-          ? await SubjectApi.createSubject(this.creatingSubject)
-          : await SubjectApi.editSubject(this.creatingSubject);
+          ? await SubjectsRepository.create(this.subject)
+          : await SubjectsRepository.update(this.subject);
 
         await this.$swal.fire({
           icon: "success",
@@ -180,6 +176,13 @@ export default {
     },
     onIndexSubject: function() {
       window.location.replace("/subjects");
+    },
+    fetchListOptionSelect: async function() {
+      const result_department_option = await SubjectsRepository.getListDepartmentOption();
+      const result_subject_type_option = await SubjectsRepository.getListSubjectTypeOption();
+
+      this.departmentOption = await result_department_option.data
+      this.subjectTypeOption = await result_subject_type_option.data
     }
   }
 };

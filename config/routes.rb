@@ -31,6 +31,12 @@ Rails.application.routes.draw do
           get :get_list
         end
       end
+      resources :subjects do
+        collection do
+          get :get_list_department_option
+          get :get_list_subject_type_option
+        end
+      end
     end
   end
 end
