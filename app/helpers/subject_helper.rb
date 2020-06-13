@@ -15,6 +15,7 @@ module SubjectHelper
     inner_options = {
       ":subject-id": params[:id]
     }
+
     content_tag('subjects-edit-page', nil, inner_options, false)
   end
 end

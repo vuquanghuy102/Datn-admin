@@ -15,6 +15,7 @@ module UserHelper
     inner_options = {
       'user-id': params[:id]
     }
+
     content_tag('users-edit-page', nil, inner_options, false)
   end
 end
