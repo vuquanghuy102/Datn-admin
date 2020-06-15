@@ -14,7 +14,7 @@ import 'bootstrap'
 import Axios from './axios';
 Vue.prototype.$axios = Axios;
 
-import ApiService from '../api/apiService';
+import ApiService from '../src/repositories/admin/apiService';
 
 import Toasted from 'vue-toasted';
 Vue.prototype.$toasted = Toasted;
