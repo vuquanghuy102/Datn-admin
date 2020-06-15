@@ -47,8 +47,10 @@ Rails.application.routes.draw do
       resources :courses do
         collection do
           get :get_list_courses_status_option
+          get :get_list_courses_code_option
         end
       end
+      resources :schedules
     end
   end
 end

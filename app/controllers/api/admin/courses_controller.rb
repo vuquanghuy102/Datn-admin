@@ -71,6 +71,17 @@ module Api
         render json: Course.select_status_i18n.to_json
       end
 
+      def get_list_courses_code_option
+        @list = Course.all.map do |course|
+          {
+            value: course.id,
+            code: course.course_code,
+          }
+        end
+
+        render json: @list
+      end
+
       private
 
       def fetch_course

@@ -50,9 +50,9 @@ document.addEventListener('DOMContentLoaded', () => {
       CoursesIndex: () => import('../src/components/Admin/Page/Courses/IndexPage'),
       CoursesNewPage: () => import('../src/components/Admin/Page/Courses/NewPage'),
       CoursesEditPage: () => import('../src/components/Admin/Page/Courses/EditPage'),
-      SchedulesIndex: () => import('./components/schedules/Index'),
-      SchedulesNewPage: () => import('./components/schedules/new'),
-      SchedulesEditPage: () => import('./components/schedules/edit'),
+      SchedulesIndex: () => import('../src/components/Admin/Page/Schedules/IndexPage'),
+      SchedulesNewPage: () => import('../src/components/Admin/Page/Schedules/NewPage'),
+      SchedulesEditPage: () => import('../src/components/Admin/Page/Schedules/EditPage'),
     }
   });
   

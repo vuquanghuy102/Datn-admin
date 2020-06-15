@@ -42,10 +42,12 @@
   </div>
 </template>
 <script>
-import Item from "./Item";
-import Paging from "../share/Paging";
-import Search from "./Search";
-import SchedulesApi from "../../../api/schedules";
+import Item from "../../Components/Schedules/Item";
+import Paging from "../../Shared/Paging";
+import Search from "../../Components/Schedules/Search";
+
+import { RepositoryFactory } from "../../../../repositories/RepositoryFactory";
+const SchedulesRepository = RepositoryFactory.get("adminSchedules");
 
 export default {
   components: {
@@ -56,10 +58,13 @@ export default {
   data: function() {
     return {
       schedulesList: [],
-      page: 1,
-      perPage: 50,
-      meta: {},
-      searchData: null,
+      meta: {
+        total: null,
+        page: 1,
+        from: null,
+        to: null,
+        series: []
+      },
       q: {}
     };
   },
@@ -68,18 +73,16 @@ export default {
   },
   methods: {
     fetchSchedulesList: async function() {
-      const params = {
-        q: this.q,
-        page: this.page,
-        per_page: this.perPage
-      };
-      
       try {
         this.$root.$refs.loading.show();
-        const result = await SchedulesApi.getSchedulesList(params);
+
+        const result = await SchedulesRepository.getList({
+          q: this.q,
+          page: this.meta.page
+        });
+
         this.schedulesList = result.data.schedules;
-        this.meta = Object.assign({}, this.meta, result.data.meta);
-        this.page = this.meta.page;
+        this.meta = result.data.meta;
       } catch (e) {
         console.log(e.message);
       } finally {
@@ -87,7 +90,7 @@ export default {
       }
     },
     onChangePage: function(page) {
-      this.page = page;
+      this.meta.page = page;
       this.fetchSchedulesList();
     },
     onSearch: async function(params) {

@@ -1,7 +1,7 @@
 import Repository from "../../AdminRepository";
 import qs from "qs";
 
-const resource = "courses";
+const resource = "schedules";
 
 export default {
   get(id) {
@@ -20,12 +20,6 @@ export default {
       params,
       paramsSerializer,
     });
-  },
-  getListCourseStatusOption() {
-    return Repository.get(`${resource}/get_list_courses_status_option.json`);
-  },
-  getListCoursesCodeOption() {
-    return Repository.get(`${resource}/get_list_courses_code_option.json`);
   },
   create(params) {
     return Repository.post(`${resource}.json`, params);

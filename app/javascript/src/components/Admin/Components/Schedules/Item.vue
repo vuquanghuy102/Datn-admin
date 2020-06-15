@@ -25,7 +25,8 @@
   </tr>
 </template>
 <script>
-import SchedulesApi from "../../../api/schedules";
+import { RepositoryFactory } from "../../../../repositories/RepositoryFactory";
+const SchedulesRepository = RepositoryFactory.get("adminSchedules");
 
 export default {
   data: function() {
@@ -56,7 +57,7 @@ export default {
           if (result.value) {
             try {
               self.$root.$refs.loading.show();
-              const resultDestroy = await SchedulesApi.destroySchedule(
+              const resultDestroy = await SchedulesRepository.destroy(
                 self.schedule.id
               );
               self.$toasted.success(resultDestroy.data.message);

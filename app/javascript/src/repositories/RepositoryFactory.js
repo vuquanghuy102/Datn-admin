@@ -6,6 +6,7 @@ import AdminAuthorizationsRepository from "./admin/authorizationsRepository";
 import AdminSubjectsRepository from "./admin/subjectsRepository"
 import AdminStudentsRepository from "./admin/studentsRepository"
 import AdminCoursesRepository from "./admin/coursesRepository"
+import AdminSchedulesRepository from "./admin/schedulesRepository"
 
 const repositories = {
   // Admin page
@@ -16,6 +17,7 @@ const repositories = {
   adminSubjects: AdminSubjectsRepository,
   adminStudents: AdminStudentsRepository,
   adminCourses: AdminCoursesRepository,
+  adminSchedules: AdminSchedulesRepository,
 };
 
 export const RepositoryFactory = {
