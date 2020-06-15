@@ -1,13 +1,14 @@
 class UserValidator
   include ActiveModel::Model
 
-  attr_accessor :id, :user_roles, :email, :name, :password
+  attr_accessor :id, :user_roles, :email, :name, :password, :password_confirmation
 
   validates :user_roles, :email, :name, presence: true
 
   validates :email, format: { with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i }
   validate :email_uniqueness
-  validates :password, presence: true, length: { minimum: 8 }, on: :create
+  validates :password, presence: true, length: { minimum: 8 }, on: :create, confirmation: true
+  validates :password_confirmation, presence: :true
   validate :user_roles_uniq?
   validate :check_roles_valid?
   validate :check_user_roles_current_user?, on: :update
@@ -17,6 +18,7 @@ class UserValidator
     @id = attributes.id
     @email = attributes.email
     @password = attributes.password
+    @password_confirmation = attributes.password_confirmation
     @name = attributes.name
     @user_roles = attributes.user_roles_attributes.reject do |p|
       p[:_destroy]

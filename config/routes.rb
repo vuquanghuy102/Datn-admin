@@ -5,13 +5,52 @@ Rails.application.routes.draw do
 
   resources :roles, except: :show
   resources :users, except: :show
-  resources :permissions do
-    collection do
-      post :remove
-    end
-  end
+  resources :permissions, only: %i[index create]
   resources :subjects, except: :show
   resources :students, except: :show
   resources :courses, except: :show
   resources :schedules, except: :show
+
+  namespace :api do
+    namespace :admin do
+      resources :users
+      resources :roles do
+        collection do
+          get :list_select
+          get :get_list_all
+        end
+      end
+      resources :permissions, only: %i[create] do
+        collection do
+          get :get_list
+          post :remove
+        end
+      end
+      resources :authorizations do
+        collection do
+          get :get_list
+        end
+      end
+      resources :subjects do
+        collection do
+          get :get_list_department_option
+          get :get_list_subject_type_option
+          get :get_list_name_option
+        end
+      end
+      resources :students do
+        collection do
+          get :get_list_program_option
+          get :get_list_class_name_option
+        end
+      end
+      resources :courses do
+        collection do
+          get :get_list_courses_status_option
+          get :get_list_courses_code_option
+        end
+      end
+      resources :schedules
+    end
+  end
 end
