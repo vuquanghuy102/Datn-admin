@@ -1,7 +1,7 @@
 import Repository from "../../AdminRepository";
 import qs from "qs";
 
-const resource = "subjects";
+const resource = "courses";
 
 export default {
   get(id) {
@@ -21,14 +21,8 @@ export default {
       paramsSerializer,
     });
   },
-  getListDepartmentOption() {
-    return Repository.get(`${resource}/get_list_department_option.json`);
-  },
-  getListSubjectTypeOption() {
-    return Repository.get(`${resource}/get_list_subject_type_option.json`);
-  },
-  getListNameOption() {
-    return Repository.get(`${resource}/get_list_name_option.json`);
+  getListCourseStatusOption() {
+    return Repository.get(`${resource}/get_list_courses_status_option.json`);
   },
   create(params) {
     return Repository.post(`${resource}.json`, params);

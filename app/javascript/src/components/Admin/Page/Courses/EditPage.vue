@@ -1,41 +1,41 @@
 <template>
   <div>
-    <Form :student="student"
+    <Form :course="course"
           :is-create="false" />
     <button class="btn btn-info" @click="onIndexSubject()">Trở về danh sách</button>
   </div>
 </template>
 <script>
-import Form from "../../Components/Students/Form";
 import { RepositoryFactory } from "../../../../repositories/RepositoryFactory";
-const StudentsRepository = RepositoryFactory.get("adminStudents");
+const CoursesRepository = RepositoryFactory.get("adminCourses");
+import Form from "../../Components/Courses/Form";
 
 export default {
   components: {
     Form,
   },
   props: {
-    studentId: {
+    courseId: {
       type: Number,
       required: true
     }
   },
-  created: function() {
-    this.fetchStudent()
-  },
   data: function() {
     return {
-      student: {}
+      course: {}
     };
+  },
+  created() {
+    this.fetchCourse()
   },
   methods: {
     onIndexSubject: function() {
-      window.location.replace("/students");
+      window.location.replace("/courses");
     },
-    fetchStudent: async function() {
-      const result = await StudentsRepository.get(this.studentId);
+    fetchCourse: async function() {
+      const result = await CoursesRepository.get(this.courseId);
 
-      this.student = result.data
+      this.course = result.data
     }
   }
 };

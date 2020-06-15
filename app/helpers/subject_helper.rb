@@ -5,13 +5,13 @@ module SubjectHelper
     content_tag("subjects-index", nil, inner_options, false)
   end
 
-  def subjects_new_page(subject)
+  def subjects_new_page
     inner_options = {}
 
     content_tag('subjects-new-page', nil, inner_options, false)
   end
 
-  def subjects_edit_page(subject)
+  def subjects_edit_page
     inner_options = {
       ":subject-id": params[:id]
     }

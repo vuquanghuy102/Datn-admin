@@ -5,13 +5,13 @@ module StudentHelper
     content_tag("students-index", nil, inner_options, false)
   end
 
-  def students_new_page(student)
+  def students_new_page
     inner_options = {}
 
     content_tag('students-new-page', nil, inner_options, false)
   end
 
-  def students_edit_page(student)
+  def students_edit_page
     inner_options = {
       ":student-id": params[:id],
     }

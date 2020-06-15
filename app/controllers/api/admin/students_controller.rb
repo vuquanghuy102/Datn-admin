@@ -83,7 +83,7 @@ module Api
       end
 
       def student_params
-        params.require(:student).permit(
+        params.permit(
           :student_code, :name, :dob,
           :class_name, :program
         )

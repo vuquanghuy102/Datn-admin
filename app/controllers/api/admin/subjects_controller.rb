@@ -75,6 +75,17 @@ module Api
         render json: Subject.pluck(:subject_type).uniq
       end
 
+      def get_list_name_option
+        @list_courses = Subject.all.map do |subject|
+          {
+            value: subject.id,
+            name: subject.subject_name,
+          }
+        end
+
+        render json: @list_courses
+      end
+
       private
 
       def fetch_subject
@@ -82,7 +93,7 @@ module Api
       end
 
       def subject_params
-        params.require(:subject).permit(
+        params.permit(
           :subject_code, :subject_name, :subject_type,
           :credit_value, :jhi_desc, :department, :status, :credit_value_number
         )

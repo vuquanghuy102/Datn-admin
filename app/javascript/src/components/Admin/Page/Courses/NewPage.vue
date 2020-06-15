@@ -1,12 +1,12 @@
 <template>
   <div>
-    <Form :student="student"
+    <Form :course="course"
           :is-create="true" />
     <button class="btn btn-info" @click="onIndexSubject()">Trở về danh sách</button>
   </div>
 </template>
 <script>
-import Form from "../../Components/Students/Form";
+import Form from "../../Components/Courses/Form";
 
 export default {
   components: {
@@ -14,12 +14,12 @@ export default {
   },
   data: function() {
     return {
-      student: {}
+      course: {}
     };
   },
   methods: {
     onIndexSubject: function() {
-      window.location.replace("/students");
+      window.location.replace("/courses");
     }
   }
 };

@@ -1,11 +1,11 @@
 module Api
   module Admin
-    class RolesController < BaseController
+    class CoursesController < BaseController
       PER_PAGE = 50
-      before_action :fetch_role, only: %i[edit update destroy show]
+      before_action :fetch_course, only: %i[edit update destroy show]
 
       def index
-        sql = Role.all
+        sql = Course.all
 
         collection = sql.ransack(params[:q]).result(distinct: true).order(id: :desc)
 
@@ -29,65 +29,58 @@ module Api
         respond_to do |format|
           format.html
           format.json do
-            render json: @role
+            render json: @course
           end
         end
       end
 
       def create
-        form = RoleValidator.new(OpenStruct.new(role_params))
+        form = CourseValidator.new(OpenStruct.new(course_params))
 
         if form.valid?
-          role = Role.create!(role_params)
-          render json: role, status: :ok
+          @course = Course.new(course_params)
+          @course.course_code = Course.last.course_code[..3] + (Course.last.course_code[4..].to_i + 1).to_s
+          @course.save
+
+          render json: @course, status: :ok
         else
           render json: form.error_messages, status: :unprocessable_entity
         end
       end
 
       def update
-        form = RoleValidator.new(OpenStruct.new(role_params))
+        form = CourseValidator.new(OpenStruct.new(course_params))
 
         if form.valid?
-          @role.update(role_params)
-          render json: @role, status: :ok
+          @course.update(course_params)
+          render json: @course, status: :ok
         else
           render json: form.error_messages, status: :unprocessable_entity
         end
       end
 
       def destroy
-        @role.destroy!
-
-        render json: { message: "Chức vụ đã bị xóa." }, status: :ok
+        @course.destroy
+        render json: { message: "Học phần đã bị xóa." }, status: :ok
       rescue StandardError => e
-        render json: { message: "Xóa chức vụ thất bại. Vui lòng thử lại." }, status: :unprocessable_entity
+        Rails.logger.error("destroy failed; #{e.message}")
+        render json: { message: "Xóa học phần thất bại. Vui lòng thử lại." }, status: :internal_server_error
       end
 
-      def list_select
-        @list_role = Role.all.map do |role|
-          {
-            value: role.id,
-            name: role.name,
-          }
-        end
-
-        render json: @list_role
-      end
-
-      def get_list_all
-        render json: Role.all
+      def get_list_courses_status_option
+        render json: Course.select_status_i18n.to_json
       end
 
       private
 
-      def fetch_role
-        @role = Role.find(params[:id])
+      def fetch_course
+        @course = Course.find(params[:id])
       end
 
-      def role_params
+      def course_params
         params.permit(
-          :name, :description
+          :course_code, :max_slot, :status,
+          :subject_id, :current_slot
         )
       end
     end

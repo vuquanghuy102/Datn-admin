@@ -35,12 +35,18 @@ Rails.application.routes.draw do
         collection do
           get :get_list_department_option
           get :get_list_subject_type_option
+          get :get_list_name_option
         end
       end
       resources :students do
         collection do
           get :get_list_program_option
           get :get_list_class_name_option
+        end
+      end
+      resources :courses do
+        collection do
+          get :get_list_courses_status_option
         end
       end
     end
