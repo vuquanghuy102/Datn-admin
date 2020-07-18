@@ -115,6 +115,8 @@
       </div>
     </div>
 
+    <FormSubjectRequired />
+
     <button
       class="btn btn-primary float-right"
       @click.prevent="save(subject)"
@@ -124,10 +126,14 @@
   </div>
 </template>
 <script>
+import FormSubjectRequired from "./FormSubjectRequired";
 import { RepositoryFactory } from "../../../../repositories/RepositoryFactory";
 const SubjectsRepository = RepositoryFactory.get("adminSubjects");
 
 export default {
+  components: {
+    FormSubjectRequired
+  },
   props: {
     subject: {
       type: Object,

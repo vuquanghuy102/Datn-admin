@@ -1,14 +1,13 @@
 class StudentValidator
   include ActiveModel::Model
 
-  attr_accessor :name, :dob,
+  attr_accessor :dob,
                 :class_name, :program
 
-  validates :name, :dob,
+  validates :dob,
             :class_name, :program, presence: true
 
   def initialize(attributes = {})
-    @name = attributes.name
     @dob = attributes.dob
     @class_name = attributes.class_name
     @program = attributes.program

@@ -6,10 +6,9 @@ User.destroy_all
 UserRole.destroy_all
 Permission.destroy_all
 
-15.times do |i|
+
 5.times do |i|
   Role.create(name: "Role ##{i}", description: "This is description #{i}")
-end 
 end
 
 role_admin = Role.create!(

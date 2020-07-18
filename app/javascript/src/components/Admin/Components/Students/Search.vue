@@ -39,6 +39,8 @@
         </div>
         <button class="btn btn-success" @click.prevent="onSearch()">Tìm kiếm</button>
         <button class="btn btn-success" @click.prevent="onNewStudents()">Tạo mới sinh viên</button>
+        <button class="btn btn-success" @click.prevent="onNewStudents()">Xuất danh sách CSV</button>
+        <button class="btn btn-success" @click.prevent="onNewStudents()">Tải lên danh sách CSV</button>
       </form>
     </div>
   </div>

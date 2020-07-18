@@ -1,6 +1,8 @@
 class User < ApplicationRecord
   # dùng khi chọc vào db khác
-  # self.table_name = "USER"
+  self.table_name = "USER"
+  self.sequence_name = "USER_SEQ"
+
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :recoverable, :registerable, :timeoutable, :trackable and :omniauthable

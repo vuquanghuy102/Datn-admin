@@ -1,4 +1,7 @@
 class Course < ApplicationRecord
+  self.table_name = "COURSE"
+  self.sequence_name = "COURSE_SEQ"
+
   belongs_to :subject
 
   enum status: {

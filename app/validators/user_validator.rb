@@ -8,7 +8,7 @@ class UserValidator
   validates :email, format: { with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i }
   validate :email_uniqueness
   validates :password, presence: true, length: { minimum: 8 }, on: :create, confirmation: true
-  validates :password_confirmation, presence: :true
+  validates :password_confirmation, presence: :true, on: :create
   validate :user_roles_uniq?
   validate :check_roles_valid?
   validate :check_user_roles_current_user?, on: :update

@@ -39,7 +39,11 @@ module Api
 
         if form.valid?
           @course = Course.new(course_params)
-          @course.course_code = Course.last.course_code[..3] + (Course.last.course_code[4..].to_i + 1).to_s
+          if Course.last == nil
+            @course.course_code = "COURSE" + "1"
+          else
+            @course.course_code = Course.last.course_code[..5] + (Course.last.course_code[6..].to_i + 1).to_s
+          end
           @course.save
 
           render json: @course, status: :ok

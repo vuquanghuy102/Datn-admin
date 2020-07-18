@@ -36,27 +36,59 @@ module Api
       end
 
       def create
-        form = StudentValidator.new(OpenStruct.new(student_params))
+        form1 = StudentValidator.new(OpenStruct.new(student_params))
+        form2 = FpUserValidator.new(OpenStruct.new(fp_user_params))
+        f1 = form1.valid?
+        f2 = form2.valid?(:create)
 
-        if form.valid?
+        if f1 && f2
           @student = Student.new(student_params)
-          @student.student_code = Student.last.student_code[..3] + (Student.last.student_code[4..].to_i + 1).to_s
+          if Subject.last == nil
+            @student.student_code = "STUDENT" + "1"
+          else
+            @student.student_code = Student.last.student_code[..6] + (Student.last.student_code[7..].to_i + 1).to_s
+          end
+          @student.name = fp_user_params[:first_name] + " " + fp_user_params[:last_name]
           @student.save
+
+          u = User.new(password: fp_user_params[:password])
+
+          fp_user = FpUser.new(
+            login: @student.student_code,
+            first_name: fp_user_params[:first_name],
+            last_name: fp_user_params[:last_name],
+            password_hash: u.encrypted_password,
+            student_id: Student.find_by(student_code: @student.student_code).id,
+            email: fp_user_params[:email],
+            activated: true
+          )
+
+          fp_user.save
 
           render json: @student, status: :ok
         else
-          render json: form.error_messages, status: :unprocessable_entity
+          form = form1.error_messages.merge(form2.error_messages)
+          render json: form, status: :unprocessable_entity
         end
       end
 
       def update
-        form = StudentValidator.new(OpenStruct.new(student_params))
+        form1 = StudentValidator.new(OpenStruct.new(student_params))
+        form2 = FpUserValidator.new(OpenStruct.new(fp_user_params))
+        f1 = form1.valid?
+        f2 = form2.valid?(:update)
 
-        if form.valid?
+        if f1 && f2
           @student.update(student_params)
+          @student.fp_user.update(
+            first_name: fp_user_params[:first_name],
+            last_name: fp_user_params[:last_name],
+            email: fp_user_params[:email],
+          )
           render json: @student, status: :ok
         else
-          render json: form.error_messages, status: :unprocessable_entity
+          form = form1.error_messages.merge(form2.error_messages)
+          render json: form, status: :unprocessable_entity
         end
       end
 
@@ -84,8 +116,15 @@ module Api
 
       def student_params
         params.permit(
-          :student_code, :name, :dob,
+          :student_code, :dob,
           :class_name, :program
+        )
+      end
+
+      def fp_user_params
+        params.require(:fp_user).permit(
+          :id, :first_name, :last_name,
+          :email, :password, :password_confirmation
         )
       end
     end

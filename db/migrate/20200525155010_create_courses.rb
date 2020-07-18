@@ -1,6 +1,6 @@
 class CreateCourses < ActiveRecord::Migration[6.0]
   def change
-    create_table :courses do |t|
+    create_table :course do |t|
       t.string :course_code
       t.integer :max_slot
       t.integer :status

@@ -38,6 +38,16 @@ Rails.application.routes.draw do
           get :get_list_name_option
         end
       end
+      resources :subjects_required do
+        collection do
+          get :get_list
+        end
+      end
+      resources :subjects_pair do
+        collection do
+          get :get_list
+        end
+      end
       resources :students do
         collection do
           get :get_list_program_option

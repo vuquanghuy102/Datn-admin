@@ -39,7 +39,11 @@ module Api
 
         if form.valid?
           @subject = Subject.new(subject_params)
-          @subject.subject_code = Subject.last.subject_code[..2] + (Subject.last.subject_code[3..].to_i + 1).to_s
+          if Subject.last == nil
+            @subject.subject_code = "SUBJECT" + "1"
+          else
+            @subject.subject_code = Subject.last.subject_code[..6] + (Subject.last.subject_code[7..].to_i + 1).to_s
+          end
           @subject.save
 
           render json: @subject, status: :ok

@@ -16,3 +16,7 @@ vn:
           attributes:
             password_confirmation:
               confirmation: không phù hợp
+        fp_user_validator:
+          attributes:
+            password_confirmation:
+              confirmation: không phù hợp
