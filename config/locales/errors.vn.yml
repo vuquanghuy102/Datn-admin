@@ -9,10 +9,16 @@ vn:
       does_not_exist: không tồn tại
       not_a_number: phải là số
       record_invalid: phải là số
+      duplicate_require_pair: không được trùng với môn học bắt buộc học trước
+      duplicate_subject_required: không được trùng với môn học bắt buộc học cùng
   activemodel:
     errors:
       models:
         user_validator:
+          attributes:
+            password_confirmation:
+              confirmation: không phù hợp
+        fp_user_validator:
           attributes:
             password_confirmation:
               confirmation: không phù hợp

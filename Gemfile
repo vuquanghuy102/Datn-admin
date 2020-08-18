@@ -20,6 +20,8 @@ gem 'ransack'
 gem 'pundit'
 gem 'enum_help'
 gem 'awesome_print', :require => 'ap'
+gem 'cequel'
+gem 'activemodel-serializers-xml'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]

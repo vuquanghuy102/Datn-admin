@@ -21,7 +21,7 @@
                   <th width="15%">Miêu tả môn học</th>
                   <th width="10%">Mã khoa</th>
                   <th width="7%">Trạng thái</th>
-                  <th width="7%">redit</th>
+                  <th width="7%">Số tín chỉ</th>
                   <th width="10%">Hành động</th>
                 </tr>
               </thead>

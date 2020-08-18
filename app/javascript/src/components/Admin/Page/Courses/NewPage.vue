@@ -14,7 +14,10 @@ export default {
   },
   data: function() {
     return {
-      course: {}
+      course: {
+        status: null,
+        subject_id: null
+      }
     };
   },
   methods: {

@@ -1,6 +1,7 @@
 <template>
   <div>
     <Form :student="student"
+          :fp_user="fp_user"
           :is-create="false" />
     <button class="btn btn-info" @click="onIndexSubject()">Trở về danh sách</button>
   </div>
@@ -25,7 +26,8 @@ export default {
   },
   data: function() {
     return {
-      student: {}
+      student: {},
+      fp_user: {}
     };
   },
   methods: {
@@ -36,6 +38,7 @@ export default {
       const result = await StudentsRepository.get(this.studentId);
 
       this.student = result.data
+      this.fp_user = this.student.fp_user
     }
   }
 };

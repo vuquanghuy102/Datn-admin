@@ -57,7 +57,8 @@ export default {
         program_eq: null
       },
       classNameOption: [],
-      programOption: []
+      programOption: [],
+      modalExportCsv: false
     };
   },
   created() {
@@ -76,6 +77,9 @@ export default {
 
       this.classNameOption = await result_class_name_option.data
       this.programOption = await result_program_option.data
+    },
+    onOpenFormExpoCSV: function() {
+      this.modalExportCsv = true
     }
   }
 };

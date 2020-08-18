@@ -1,6 +1,8 @@
 class Permission < ApplicationRecord
   # dùng khi chọc vào db khác
-  # self.table_name = "PERMISSION"
+  self.table_name = "PERMISSION"
+  self.sequence_name = "PERMISSION_SEQ"
+
   extend ActiveHash::Associations::ActiveRecordExtensions
 
   belongs_to :role

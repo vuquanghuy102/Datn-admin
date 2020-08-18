@@ -1,6 +1,7 @@
 <template>
   <div>
     <Form :student="student"
+          :fp_user="student.fp_user"
           :is-create="true" />
     <button class="btn btn-info" @click="onIndexSubject()">Trở về danh sách</button>
   </div>
@@ -14,7 +15,11 @@ export default {
   },
   data: function() {
     return {
-      student: {}
+      student: {
+        fp_user: {},
+        class_name: null,
+        program: null
+      }
     };
   },
   methods: {

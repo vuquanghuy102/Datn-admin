@@ -2,6 +2,7 @@ module Api
   module Admin
     class SchedulesController < BaseController
       PER_PAGE = 50
+      skip_before_action :verify_authenticity_token
       before_action :fetch_schedule, only: %i[edit update destroy show]
 
       def index

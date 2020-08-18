@@ -57,9 +57,6 @@ export default {
       return role.name.toLocaleLowerCase() == "admin";
     },
     generateCheckboxes() {
-      console.log(this.authorizations)
-      console.log(this.permissions)
-      console.log(this.roles)
       this.roles.forEach(role => {
         this.checkboxes[role.id] = {};
         this.authorizations.forEach(group => {
