@@ -61,20 +61,6 @@
       </div>
     </div>
 
-    <div class="form-group row">
-      <label for="kind" class="col-sm-2 col-form-label">Số lượng sinh viên đăng ký</label>
-      <div class="col-sm-10">
-        <input
-          type="text"
-          v-model="course.current_slot"
-          class="form-control"
-        />
-        <div class="validation" v-if="errors.current_slot">
-          <p v-for="(error, key) in errors.current_slot" :key="key">{{ error }}</p>
-        </div>
-      </div>
-    </div>
-
     <button
       class="btn btn-primary float-right"
       @click.prevent="save(course)"

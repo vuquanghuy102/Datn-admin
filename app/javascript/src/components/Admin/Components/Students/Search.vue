@@ -39,8 +39,6 @@
         </div>
         <button class="btn btn-success" @click.prevent="onSearch()">Tìm kiếm</button>
         <button class="btn btn-success" @click.prevent="onNewStudents()">Tạo mới sinh viên</button>
-        <button class="btn btn-success" @click.prevent="onNewStudents()">Xuất danh sách CSV</button>
-        <button class="btn btn-success" @click.prevent="onNewStudents()">Tải lên danh sách CSV</button>
       </form>
     </div>
   </div>
@@ -59,7 +57,8 @@ export default {
         program_eq: null
       },
       classNameOption: [],
-      programOption: []
+      programOption: [],
+      modalExportCsv: false
     };
   },
   created() {
@@ -78,6 +77,9 @@ export default {
 
       this.classNameOption = await result_class_name_option.data
       this.programOption = await result_program_option.data
+    },
+    onOpenFormExpoCSV: function() {
+      this.modalExportCsv = true
     }
   }
 };

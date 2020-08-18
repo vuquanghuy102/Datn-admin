@@ -35,6 +35,7 @@ Rails.application.routes.draw do
         collection do
           get :get_list_department_option
           get :get_list_subject_type_option
+          get :get_list_name_code_option
           get :get_list_name_option
         end
       end

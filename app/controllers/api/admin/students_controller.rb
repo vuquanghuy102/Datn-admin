@@ -2,6 +2,7 @@ module Api
   module Admin
     class StudentsController < BaseController
       PER_PAGE = 50
+      skip_before_action :verify_authenticity_token
       before_action :fetch_student, only: %i[edit update destroy show]
 
       def index
@@ -93,6 +94,10 @@ module Api
       end
 
       def destroy
+        fp_user = @student.fp_user
+        if fp_user
+          fp_user.destroy
+        end
         @student.destroy
         render json: { message: "Sinh viên đã bị xóa." }, status: :ok
       rescue StandardError => e
@@ -122,7 +127,7 @@ module Api
       end
 
       def fp_user_params
-        params.require(:fp_user).permit(
+        params.permit(
           :id, :first_name, :last_name,
           :email, :password, :password_confirmation
         )

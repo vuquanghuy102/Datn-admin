@@ -16,7 +16,9 @@ export default {
   data: function() {
     return {
       student: {
-        fp_user: {}
+        fp_user: {},
+        class_name: null,
+        program: null
       }
     };
   },

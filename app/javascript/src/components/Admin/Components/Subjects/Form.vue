@@ -102,7 +102,7 @@
     </div>
 
     <div class="form-group row">
-      <label for="kind" class="col-sm-2 col-form-label">Credit</label>
+      <label for="kind" class="col-sm-2 col-form-label">Số tín chỉ</label>
       <div class="col-sm-10">
         <input
           type="text"
@@ -115,8 +115,37 @@
       </div>
     </div>
 
-    <FormSubjectRequired />
+    <div class="form-group row">
+      <label for="kind" class="col-sm-2 col-form-label">Môn học bắt buộc học cùng</label>
+      <div class="col-sm-10">
+        <select v-model="subject.require_pair" class="form-control">
+          <option v-bind:value="null">--Vui lòng chọn--</option>
+          <option v-for="(subject, index) in subjectListNameCodeOption"
+                  v-bind:value="subject.code"
+                  :key="index">
+            {{ subject.name }}</option>
+        </select>
+        <div class="validation" v-if="errors.require_pair">
+          <p v-for="(error, key) in errors.require_pair" :key="key">{{ error }}</p>
+        </div>
+      </div>
+    </div>
 
+    <div class="form-group row">
+      <label for="kind" class="col-sm-2 col-form-label">Môn học bắt buộc học trước</label>
+      <div class="col-sm-10">
+        <select v-model="subject.subject_required" class="form-control">
+          <option v-bind:value="null">--Vui lòng chọn--</option>
+          <option v-for="(subject, index) in subjectListNameCodeOption"
+                  v-bind:value="subject.code"
+                  :key="index">
+            {{ subject.name }}</option>
+        </select>
+        <div class="validation" v-if="errors.subject_required">
+          <p v-for="(error, key) in errors.subject_required" :key="key">{{ error }}</p>
+        </div>
+      </div>
+    </div>
     <button
       class="btn btn-primary float-right"
       @click.prevent="save(subject)"
@@ -126,14 +155,10 @@
   </div>
 </template>
 <script>
-import FormSubjectRequired from "./FormSubjectRequired";
 import { RepositoryFactory } from "../../../../repositories/RepositoryFactory";
 const SubjectsRepository = RepositoryFactory.get("adminSubjects");
 
 export default {
-  components: {
-    FormSubjectRequired
-  },
   props: {
     subject: {
       type: Object,
@@ -145,7 +170,8 @@ export default {
     return {
       errors: {},
       subjectTypeOption: [],
-      departmentOption: []
+      departmentOption: [],
+      subjectListNameCodeOption: []
     };
   },
   created() {
@@ -186,9 +212,11 @@ export default {
     fetchListOptionSelect: async function() {
       const result_department_option = await SubjectsRepository.getListDepartmentOption();
       const result_subject_type_option = await SubjectsRepository.getListSubjectTypeOption();
+      const result_subject_list_name_code_option = await SubjectsRepository.getListNameCodeOption();
 
       this.departmentOption = await result_department_option.data
       this.subjectTypeOption = await result_subject_type_option.data
+      this.subjectListNameCodeOption = await result_subject_list_name_code_option.data
     }
   }
 };

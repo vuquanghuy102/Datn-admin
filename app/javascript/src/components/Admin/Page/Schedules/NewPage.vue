@@ -14,7 +14,9 @@ export default {
   },
   data: function() {
     return {
-      schedule: {}
+      schedule: {
+        course_id: null
+      }
     };
   },
   methods: {

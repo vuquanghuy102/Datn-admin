@@ -40,11 +40,20 @@ export default {
     fetchSubject: async function() {
       const result = await SubjectsRepository.get(this.subjectId);
       const subjectRequired = await SubjectsRequiredRepository.get(this.subjectId);
-      const subjectPair = await SubjectsPairRepository.get(this.subjectId);
+      const requirePair = await SubjectsPairRepository.get(this.subjectId);
 
       this.subject = result.data
-      this.subject.subject_required = subjectRequired.data
-      this.subject.subject_pair = subjectPair.data
+      if (requirePair.data == null) {
+        this.subject.require_pair = requirePair.data
+      } else {
+        this.subject.require_pair = requirePair.data.requirecode
+      }
+
+      if (subjectRequired.data == null) {
+        this.subject.subject_required = subjectRequired.data
+      } else {
+        this.subject.subject_required = subjectRequired.data.requirecode
+      }
 
       this.loading = true
 

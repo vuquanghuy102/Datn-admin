@@ -9,6 +9,7 @@ class FpUserValidator
   validate :email_uniqueness
   validates :password, presence: true, length: { minimum: 8 }, on: :create, confirmation: true
   validates :password_confirmation, presence: :true, on: :create
+  validate :check_undefined
 
   def initialize(attributes = {})
     @id = attributes.id
@@ -27,5 +28,26 @@ class FpUserValidator
 
   def error_messages
     errors.to_hash(true)
+  end
+
+  def check_undefined
+    if @id == "undefined"
+      errors.add(:id, :blank)
+    end
+    if @first_name == "undefined"
+      errors.add(:first_name, :blank)
+    end
+    if @last_name == "undefined"
+      errors.add(:last_name, :blank)
+    end
+    if @email == "undefined"
+      errors.add(:email, :blank)
+    end
+    if @password == "undefined"
+      errors.add(:password, :blank)
+    end
+    if @password_confirmation == "undefined"
+      errors.add(:password_confirmation, :blank)
+    end
   end
 end

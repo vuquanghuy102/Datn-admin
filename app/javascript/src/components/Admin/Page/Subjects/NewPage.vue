@@ -14,7 +14,14 @@ export default {
   },
   data: function() {
     return {
-      subject: {}
+      subject: {
+        subject_type: null,
+        department: null,
+        status: null,
+        require_pair: null,
+        subject_required: null,
+        require_pair: null
+      }
     };
   },
   methods: {
